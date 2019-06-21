@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+@include('admin/public/header')
+
+<style>
+	.panel-body	h4{color: #666;}
+</style>
+
+</head>
+	
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- 导航栏 开始 -->
+		@include('admin/public/navber')
+		<!-- 导航栏 结束 -->
+		
+		<!-- 后台 左侧边栏 开始 -->
+		@include('admin/public/sidebar')
+		<!-- 后台 左侧边栏 结束 -->
+
+
+		<!-- 后台 首页 主体 开始 -->
+		<div class="main">
+			<h1 style="vertical-align: inherit;margin:15px;">修改商品信息</h1>
+
+			<!-- 显示验证错误 开始 -->
+			@include('admin/public/error')
+			<!-- 显示验证错误 结束 -->
+
+			<!-- 读取验证 提示信息 开始 -->
+			@include('admin/public/tips')
+			<!-- 读取验证 提示信息 结束 -->
+
+
+			<form action="/admin/good/{{$good_date->id}}" method="post" enctype="multipart/form-data">
+				{{ csrf_field() }}
+				{{ method_field('PUT') }}
+				<div class="panel">
+					<div class="panel-body">
+						<div>
+							<h4><font style="vertical-align: inherit;">商品名称</font></h4>
+							<input type="text" name="gname" class="form-control" placeholder="请输入商品名" value="{{ $good_date->gname }}">
+						</div>
+						<div>
+							<h4><font style="vertical-align: inherit;">标题</font></h4>
+							<input type="text" name="title" class="form-control" placeholder="请输入标题" value="{{ $good_date->title }}">
+						</div>
+						<div>
+							<h4><font style="vertical-align: inherit;">选择商品分类</font></h4>
+							<select name="cate_id" id="" class="form-control"> 
+								<option value="">--选择分类--</option>
+								@foreach($cates as $k=>$v)
+									@if(substr_count($v->path,',') < 2)
+									<option value="{{$v->id}}" disabled>{{$v->cname}}</option>
+									@else
+									<option value="{{$v->id}}" style="color:#000" {{ $v->id == $good_date->cate_id ? 'selected' : '' }}>{{$v->cname}}</option>
+									@endif
+								@endforeach
+							</select>
+						</div>
+						<div>
+							<h4><font style="vertical-align: inherit;">最低价格</font></h4>
+							<input type="text" name="price_min" class="form-control" placeholder="请输入商品价格" value="{{ $good_date->price_min }}">
+						</div>
+						<div>
+							<!-- 隐藏原有图片 -->
+							<input type="hidden" value="{{$good_date->pic}}" name="pic_path">
+							<h4><font style="vertical-align: inherit;">显示商品原图片格</font></h4>
+							<img src="/uploads/{{$good_date->pic}}" name="" alt="" class="img-thumbnail" style="width:200px;">
+						</div>
+						<div>
+							<h4><font style="vertical-align: inherit;">选择商品图片</font></h4>
+							<input type="file" name="profile" class="form-control">
+						</div>
+						<br>
+						<div class="col-md-6">
+							<button type="submit" class="btn btn-success" style="width:70px;float:left;margin:5px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改</font></font></button>
+							<a href="/admin/good" class="btn btn-info" style="width:100px;float:left;margin:5px;padding:7.5px;">返回列表</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- 后台 首页 主体 结束 -->
+
+		<div class="clearfix"></div>
+		
+		<!-- 页脚 开始 -->
+		@include('admin/public/footer')
+		<!-- 页脚 结束 -->
+
+	</div>
+	<!-- END WRAPPER -->
+	
+	<!-- JavaScript 开始 -->
+	@include('admin/public/script')
+	<!-- JavaScript 结束 -->
+
+</body>
+
+</html>
